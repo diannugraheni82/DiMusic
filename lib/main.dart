@@ -44,7 +44,7 @@ class DiMusicAlbum extends StatelessWidget {
           SliverAppBar(
             expandedHeight: 420,
             pinned: true,
-            backgroundColor: Color.fromARGB(255, 52, 80, 124),
+            backgroundColor: const Color.fromARGB(255, 52, 80, 124),
             leading: const Icon(Icons.arrow_back),
             title: const Text("Lagipula Hidup Akan Berakhir", style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
             centerTitle: true,
@@ -68,27 +68,19 @@ class DiMusicAlbum extends StatelessWidget {
                         boxShadow: const [
                           BoxShadow(color: Colors.black54, blurRadius: 30, offset: Offset(0, 10))
                         ],
-                        image: const DecorationImage(image: AssetImage("assets/cover.jpg"),fit: BoxFit.cover),
+                        image: const DecorationImage(image: AssetImage("assets/cover.jpg"), fit: BoxFit.cover),
                       ),
                     ),
                     const SizedBox(height: 30),
                     const Padding(
                       padding: EdgeInsets.symmetric(horizontal: 20),
-                      child: Align(
-                        alignment: Alignment.centerLeft,
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Text("Lagipula Hidup Akan Berakhir", style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold, color: Colors.white)),
-                            SizedBox(height: 10),
-                            Row(
-                              children: [
-                                SizedBox(width: 8),
-                                Text("Hindia - Album • 2023", style: TextStyle(fontWeight: FontWeight.bold)),
-                              ],
-                            ),
-                          ],
-                        ),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text("Lagipula Hidup Akan Berakhir", style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold)),
+                          SizedBox(height: 10),
+                          Text("Hindia - Album • 2023", style: TextStyle(fontWeight: FontWeight.bold, color: Colors.white70)),
+                        ],
                       ),
                     ),
                   ],
@@ -96,7 +88,6 @@ class DiMusicAlbum extends StatelessWidget {
               ),
             ),
           ),
-
           SliverList(
             delegate: SliverChildBuilderDelegate(
               (context, index) {
@@ -106,13 +97,131 @@ class DiMusicAlbum extends StatelessWidget {
                   title: Text(song['title']!, style: const TextStyle(fontWeight: FontWeight.w500, fontSize: 16)),
                   subtitle: Text(song['artist']!, style: const TextStyle(color: Colors.grey, fontSize: 13)),
                   trailing: const Icon(Icons.more_vert, color: Colors.grey),
-                  onTap: () {},
+                  onTap: () {
+                    // NAVIGASI KE HALAMAN PLAYER
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => PlayerScreen(songTitle: song['title']!, artist: song['artist']!),
+                      ),
+                    );
+                  },
                 );
               },
               childCount: songs.length,
             ),
           ),
         ],
+      ),
+    );
+  }
+}
+
+// --- HALAMAN PLAYER (SCREENSHOT 2) ---
+class PlayerScreen extends StatelessWidget {
+  final String songTitle;
+  final String artist;
+
+  const PlayerScreen({super.key, required this.songTitle, required this.artist});
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      body: Container(
+        width: double.infinity,
+        decoration: const BoxDecoration(
+          gradient: LinearGradient(
+            colors: [Color(0xFF2B3A67), Colors.black], // Gradasi Biru ke Hitam sesuai gambar
+            begin: Alignment.topCenter,
+            end: Alignment.bottomCenter,
+          ),
+        ),
+        child: Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 25, vertical: 50),
+          child: Column(
+            children: [
+              // Bagian Atas: Back Button dan Nama Album
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  IconButton(onPressed: () => Navigator.pop(context), icon: const Icon(Icons.keyboard_arrow_down, size: 35)),
+                  const Column(
+                    children: [
+                      Text("MEMAINKAN DARI ALBUM", style: TextStyle(fontSize: 10, letterSpacing: 1.2)),
+                      Text("Lagipula Hidup Akan Berakhir", style: TextStyle(fontWeight: FontWeight.bold, fontSize: 12)),
+                    ],
+                  ),
+                  const Icon(Icons.more_vert),
+                ],
+              ),
+              const Spacer(),
+              Container(
+                height: 350,
+                width: double.infinity,
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(15),
+                  image: const DecorationImage(image: AssetImage("assets/cover.jpg"), fit: BoxFit.cover),
+                ),
+              ),
+              const Spacer(),
+              // Info Judul & Artist
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(songTitle, style: const TextStyle(fontSize: 22, fontWeight: FontWeight.bold)),
+                      Text(artist, style: const TextStyle(fontSize: 16, color: Colors.white70)),
+                    ],
+                  ),
+                  const Icon(Icons.add_circle_outline, size: 30),
+                ],
+              ),
+              const SizedBox(height: 20),
+              // Progress Bar
+              const LinearProgressIndicator(value: 0.4, backgroundColor: Colors.white24, valueColor: AlwaysStoppedAnimation(Colors.white)),
+              const SizedBox(height: 10),
+              const Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Text("1:52", style: TextStyle(fontSize: 12, color: Colors.grey)),
+                  Text("4:33", style: TextStyle(fontSize: 12, color: Colors.grey)),
+                ],
+              ),
+              // Tombol Kontrol
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  const Icon(Icons.shuffle, color: Colors.green),
+                  const Icon(Icons.skip_previous, size: 45),
+                  Container(
+                    padding: const EdgeInsets.all(15),
+                    decoration: const BoxDecoration(color: Colors.white, shape: BoxShape.circle),
+                    child: const Icon(Icons.play_arrow, color: Colors.black, size: 35),
+                  ),
+                  const Icon(Icons.skip_next, size: 45),
+                  const Icon(Icons.timer_outlined),
+                ],
+              ),
+              const SizedBox(height: 20),
+              // Tombol Bawah (Share & Queue)
+              const Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Icon(Icons.devices, size: 20, color: Colors.white70),
+                  Row(
+                    children: [
+                      Icon(Icons.share_outlined, size: 20, color: Colors.white70),
+                      SizedBox(width: 20),
+                      Icon(Icons.queue_music, size: 20, color: Colors.white70),
+                    ],
+                  )
+                ],
+              )
+            ],
+          ),
+        ),
       ),
     );
   }
