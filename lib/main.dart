@@ -117,7 +117,6 @@ class DiMusicAlbum extends StatelessWidget {
   }
 }
 
-// --- HALAMAN PLAYER (SCREENSHOT 2) ---
 class PlayerScreen extends StatelessWidget {
   final String songTitle;
   final String artist;
@@ -131,7 +130,7 @@ class PlayerScreen extends StatelessWidget {
         width: double.infinity,
         decoration: const BoxDecoration(
           gradient: LinearGradient(
-            colors: [Color(0xFF2B3A67), Colors.black], // Gradasi Biru ke Hitam sesuai gambar
+            colors: [Color(0xFF2B3A67), Colors.black], 
             begin: Alignment.topCenter,
             end: Alignment.bottomCenter,
           ),
@@ -140,7 +139,6 @@ class PlayerScreen extends StatelessWidget {
           padding: const EdgeInsets.symmetric(horizontal: 25, vertical: 50),
           child: Column(
             children: [
-              // Bagian Atas: Back Button dan Nama Album
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
@@ -164,7 +162,6 @@ class PlayerScreen extends StatelessWidget {
                 ),
               ),
               const Spacer(),
-              // Info Judul & Artist
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
@@ -179,7 +176,6 @@ class PlayerScreen extends StatelessWidget {
                 ],
               ),
               const SizedBox(height: 20),
-              // Progress Bar
               const LinearProgressIndicator(value: 0.4, backgroundColor: Colors.white24, valueColor: AlwaysStoppedAnimation(Colors.white)),
               const SizedBox(height: 10),
               const Row(
@@ -189,7 +185,6 @@ class PlayerScreen extends StatelessWidget {
                   Text("4:33", style: TextStyle(fontSize: 12, color: Colors.grey)),
                 ],
               ),
-              // Tombol Kontrol
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
@@ -205,7 +200,6 @@ class PlayerScreen extends StatelessWidget {
                 ],
               ),
               const SizedBox(height: 20),
-              // Tombol Bawah (Share & Queue)
               const Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
